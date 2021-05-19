@@ -1,0 +1,104 @@
+<div ng-if="ctrl.visible()">
+
+    <div class="row">
+    
+        <div class="col-xs-6 col-xs-offset-2">
+            <div class="input-group">    
+                <input type="text" class="form-control" name="x" placeholder="Wyszukaj" ng-model="ctrl.searchPhraze">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" ng-click="ctrl.onSearchPersonsButtonClicked()"><span class="glyphicon glyphicon-search"></span></button>
+                </span>
+            </div>
+        </div>
+    
+        <br/><br/><br/>
+        
+        <div class="col col-sm-12">
+            <table class="table table-stripped table-hover">
+                <tr ng-click="ctrl.selected = -1">
+                    <th>&nbsp;</th>
+                    <th>Imię</th>
+                    <th>Nazwisko</th>
+                    <th>Rok</th>
+                    <th>Kwota</th>
+                </tr>
+                <tr ng-repeat="person in ctrl.persons" ng-click="ctrl.select($index)" ng-class="{ 'rowSelected': ctrl.selected == $index }">
+                    <td ng-bind="$index == ctrl.selected ? '»' : ''"></td>
+                    <td ng-bind="person.firstName"></td>
+                    <td ng-bind="person.lastName"></td>
+                    <td ng-bind="person.year"></td>
+                    <td ng-bind="person.amount"></td>
+                </tr>
+            </table>
+        </div>
+    
+        <ul class="pagination justify-content-center" ng-if="!ctrl.hideNavBar">
+            <li class="page-item" ng-class="{ 'disabled': ctrl.page == 0 }" ng-click="ctrl.onPreviousButtonClicked()">
+                <a class="page-link item-skip" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span>Previous</span>
+                </a>
+            </li>
+            <li class="page-item" ng-repeat="pageNumber in ctrl.pages" ng-click="ctrl.selectPage($index)" ng-class="{ 'active': ctrl.page == $index }">
+                <a class="page-link" ng-bind="pageNumber + 1"></a>
+            </li>
+            <li class="page-item" ng-class="{ 'disabled': ctrl.page == ctrl.pages.length - 1 }" ng-click="ctrl.onNextButtonClicked()">
+                <a class="page-link item-skip" aria-label="Next">
+                    <span>Next</span>
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+
+<!-- <form class="form form-inline">
+            <div class="col-xs-4">
+                <input class="form-control" id="ex1" type="number" placeholder="Liczba rekordów na stronie" ng-model="ctrl.displayRecordsCount">
+                <button class="btn btn-primary" ng-click="ctrl.changeDisplayRecordsCount()">Zastosuj</button>
+            </div>
+        </form>-->
+
+
+        <form class="form form-inline">
+            <div class="col-xs-4">
+                <label> Wybierz ilosc rekordow: </label>
+                <select class="form-control" ng-model="ctrl.displayRecordsCount">
+                    <option>5</option>
+                    <option>10</option>
+                    <option>20</option>
+                    <option>50</option>
+                    <option>100</option>
+                </select>
+                <button class="btn btn-primary" ng-click="ctrl.changeDisplayRecordsCount()">Zastosuj</button>
+            </div>
+        </form>
+    
+    </div>
+    
+    <div class="panel panel-default" ng-if="ctrl.selected >= 0">
+        <div class="panel-heading">Zmień</div>
+        <div class="panel-body">
+            <form class="form form-inline">
+                <input class="form-control" type="text" ng-model="ctrl.person.firstName"/>
+                <input class="form-control" type="text" ng-model="ctrl.person.lastName"/>
+                <input class="form-control" type="number" ng-model="ctrl.person.year"/>
+                <button class="btn btn-success" ng-click="ctrl.updateData()">Zmień</button>
+                <button class="btn btn-danger" ng-click="ctrl.deleteData()">Usuń</button>
+            </form>
+        </div>
+    </div>
+    
+    <br/><br/>
+    
+    <div class="panel panel-default">
+        <div class="panel-heading">Dodaj</div>
+        <div class="panel-body">
+            <form class="form form-inline">
+                <input class="form-control" type="text" ng-model="ctrl.newPerson.firstName"/>
+                <input class="form-control" type="text" ng-model="ctrl.newPerson.lastName"/>
+                <input class="form-control" type="number" ng-model="ctrl.newPerson.year"/>
+                <button class="btn btn-primary" ng-click="ctrl.insertNewData()">Utwórz</button>
+            </form>
+        </div>
+    </div>
+    
+</div>
